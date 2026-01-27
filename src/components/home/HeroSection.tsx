@@ -4,9 +4,10 @@ import { ArrowDown, Phone, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import heroImage from '@/assets/hero-villa.jpg';
+import heroVideo from '@/assets/hero-video.mp4';
 
-// Video URL - replace with actual video when available
-const HERO_VIDEO_URL = '';
+// Video source - using imported video asset
+const HERO_VIDEO_URL = heroVideo;
 
 export function HeroSection() {
   const [scrollY, setScrollY] = useState(0);
