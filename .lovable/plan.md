@@ -1,80 +1,163 @@
 
 
-# BrikBuild Anaya – Luxury Villa Sanctuary Website
+# Plan: Video Background Hero Section
 
 ## Overview
-A premium, cinematic website for BrikBuild Anaya featuring architectural elegance, nature-forward design, and seamless lead capture. Built with visual-first principles: generous whitespace, slow reveals, golden-hour imagery, and a "quiet expensive" aesthetic.
+Transform the current static hero image into an immersive, looping video background while maintaining accessibility, performance, and the existing parallax effect.
 
 ---
 
-## Brand Foundation
-
-**Positioning:** Where architecture and nature collaborate – a sanctuary designed for families seeking lasting legacy, not just property.
-
-**Visual Identity:**
-- **Colors:** Forest Green (#2D4739) + Cream (#F7F4ED) primary, with Charcoal (#2A2A2A) and Muted Gold (#C9A962) accents
-- **Typography:** Serif display (elegant, architectural) + Clean sans-serif body
-- **Photography:** Cinematic golden-hour, drone wide shots, low saturation, soft contrast
+## Current State
+- Hero uses a static JPG image (`hero-villa.jpg`) with CSS parallax
+- Overlay gradients for text readability
+- Animated content (headline, CTAs) with staggered fade-up
+- Scroll indicator at bottom
 
 ---
 
-## Pages & Features
+## Implementation Steps
 
-### 1. Home (Cinematic Single-Page Scroll)
-- **Hero Section:** Full-screen parallax with layered depth effect, headline + subhead + dual CTAs
-- **Proof Blocks:** Credibility markers, timeline, trust indicators
-- **Why Anaya:** 5 curated benefit statements with elegant iconography
-- **Design Language:** Architecture, materials, light, and airflow philosophy
-- **Amenities Preview:** Presented as "chapters" with horizontal scroll gallery
-- **Location Highlights:** Lifestyle benefits over distance metrics
-- **Gallery Teaser:** 3-image preview with smooth reveal
-- **Visit Booking Module:** Integrated scheduling
+### 1. Create Custom Hook for Reduced Motion Detection
 
-### 2. The Sanctuary
-Philosophy page exploring the nature-architecture collaboration, landscape design, and sanctuary ethos
+**File:** `src/hooks/useReducedMotion.ts`
 
-### 3. Residences
-Villa types with floor plans, features, and specifications in an elegant card-based layout
-
-### 4. Amenities
-Curated presentation of lifestyle offerings – pool, clubhouse, gardens, wellness spaces
-
-### 5. Location
-Interactive map embed with lifestyle context, connectivity, and neighborhood character
-
-### 6. Gallery
-Horizontal scroll gallery with smooth snap navigation, category filters
-
-### 7. About BrikBuild
-Developer credibility, past projects, philosophy, team (without stock photos)
-
-### 8. Contact / Book a Visit
-Lead capture form with fields: Name, Phone, Email, City, Budget range, Preferred visit date, Message
-WhatsApp click-to-chat integration
+A React hook that detects the user's `prefers-reduced-motion` preference:
+- Returns `true` if user prefers reduced motion
+- Listens for changes in real-time
+- Used to conditionally show video or static poster
 
 ---
 
-## Interactions & Animations
-- **Scroll Reveals:** Fade + subtle translate on section entry (300ms ease-out)
-- **Hero Parallax:** Layered depth effect simulating drone perspective
-- **Gallery:** Horizontal scroll with snap points
-- **Navigation:** Minimal, sticky, color-shifts after hero
-- **CTAs:** Soft glow on hover
-- **Reduced Motion:** Full accessibility support
+### 2. Update HeroSection Component
+
+**File:** `src/components/home/HeroSection.tsx`
+
+**Changes:**
+- Import the new `useReducedMotion` hook
+- Add video element with HTML5 video attributes
+- Conditional rendering based on motion preference
+
+**Video Element Structure:**
+```text
++------------------------------------------+
+|  <video>                                 |
+|    - autoPlay (auto-start)               |
+|    - loop (seamless replay)              |
+|    - muted (required for autoplay)       |
+|    - playsInline (iOS compatibility)     |
+|    - poster={heroImage} (fallback)       |
+|                                          |
+|    <source src="...mp4" type="video/mp4">|
+|    <source src="...webm" type="video/webm">|
+|  </video>                                |
++------------------------------------------+
+```
+
+**Accessibility Logic:**
+- If `prefers-reduced-motion: reduce` → Show static poster image
+- If motion allowed → Show autoplaying video
+- Video pauses when tab is not visible (optional optimization)
 
 ---
 
-## Backend & Lead Management (Lovable Cloud)
-- **Database:** Leads table with all form fields, timestamps, and source tracking
-- **Email Notifications:** Edge function to notify sales team on new submissions
-- **Analytics Events:** CTA clicks, form step tracking, gallery engagement
-- **WhatsApp Integration:** Click-to-chat with pre-filled inquiry message
+### 3. Add Video-Specific CSS
+
+**File:** `src/index.css`
+
+New utility classes for video hero:
+- `.hero-video` - Full-cover video positioning
+- Media query override for `prefers-reduced-motion`
+- Ensure video doesn't interfere with parallax transforms
 
 ---
 
-## Content Approach
-- AI-generated placeholder imagery with cinematic style
-- Premium copywriting throughout (sensory but restrained, no clichés)
-- Mobile-first responsive design
-- Fast loading with optimized images
+### 4. Video Asset Placeholder
+
+**File:** `src/assets/hero-video.mp4` (placeholder)
+
+Since we don't have a real video yet, the implementation will:
+- Use the existing `hero-villa.jpg` as the poster/fallback
+- Accept video URL as a prop or import
+- Work seamlessly once a real video is added
+
+---
+
+## Technical Specifications
+
+### Video Requirements
+| Attribute | Value |
+|-----------|-------|
+| Format | MP4 (H.264) + WebM (VP9) |
+| Duration | 10-20 seconds |
+| Resolution | 1920x1080 (Full HD) |
+| Frame Rate | 24fps (cinematic) |
+| File Size | Under 15MB |
+| Loop Point | Seamless start/end |
+
+### HTML5 Video Attributes
+| Attribute | Purpose |
+|-----------|---------|
+| `autoPlay` | Start playing immediately |
+| `loop` | Restart when finished |
+| `muted` | Required for autoplay in browsers |
+| `playsInline` | Prevent fullscreen on iOS |
+| `poster` | Fallback image while loading |
+
+### Accessibility Features
+- Respects `prefers-reduced-motion` system setting
+- Static image fallback for reduced motion users
+- No audio (muted) - no sound controls needed
+- Poster image loads instantly before video
+
+---
+
+## Component Architecture
+
+```text
+HeroSection
+├── useReducedMotion() hook
+├── useEffect() for scroll parallax
+│
+├── Conditional Background
+│   ├── if (reducedMotion) → <img poster>
+│   └── else → <video autoPlay loop muted>
+│
+├── Overlay Gradients (unchanged)
+│
+├── Content Container
+│   ├── Eyebrow text
+│   ├── Headline
+│   ├── Subheadline
+│   └── CTA Buttons
+│
+└── Scroll Indicator
+```
+
+---
+
+## Files to Create/Modify
+
+| File | Action | Description |
+|------|--------|-------------|
+| `src/hooks/useReducedMotion.ts` | Create | Hook for motion preference detection |
+| `src/components/home/HeroSection.tsx` | Modify | Add video element with conditional rendering |
+| `src/index.css` | Modify | Add video-specific styles |
+
+---
+
+## Performance Considerations
+
+1. **Lazy Loading**: Video only loads when hero is in viewport
+2. **Poster First**: Static image shows instantly while video buffers
+3. **Mobile**: Consider disabling video on mobile for bandwidth (optional)
+4. **Preload**: Use `preload="metadata"` to load only video info initially
+
+---
+
+## Future Enhancements (Not in this implementation)
+
+- Add play/pause toggle button for user control
+- Implement intersection observer to pause video when out of view
+- Add multiple video sources for different viewport sizes
+- Consider WebM for better compression on supported browsers
 
