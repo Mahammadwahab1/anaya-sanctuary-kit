@@ -2,10 +2,15 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowDown, Phone, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import heroImage from '@/assets/hero-villa.jpg';
+
+// Video URL - replace with actual video when available
+const HERO_VIDEO_URL = '';
 
 export function HeroSection() {
   const [scrollY, setScrollY] = useState(0);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,21 +22,45 @@ export function HeroSection() {
   }, []);
 
   const parallaxOffset = scrollY * 0.4;
+  const hasVideo = Boolean(HERO_VIDEO_URL);
 
   return (
     <section className="relative h-screen min-h-[700px] overflow-hidden">
-      {/* Background Image with Parallax */}
+      {/* Background Video/Image with Parallax */}
       <div
         className="absolute inset-0 w-full h-[120%]"
         style={{
           transform: `translateY(-${parallaxOffset}px)`,
         }}
       >
-        <img
-          src={heroImage}
-          alt="Anaya Villa Community at golden hour"
-          className="w-full h-full object-cover"
-        />
+        {/* Conditional: Show video or static image based on motion preference */}
+        {hasVideo && !prefersReducedMotion ? (
+          <video
+            className="hero-video"
+            autoPlay
+            loop
+            muted
+            playsInline
+            poster={heroImage}
+            preload="metadata"
+          >
+            <source src={HERO_VIDEO_URL} type="video/mp4" />
+            {/* Fallback for browsers that don't support video */}
+            <img
+              src={heroImage}
+              alt="Anaya Villa Community at golden hour"
+              className="w-full h-full object-cover"
+            />
+          </video>
+        ) : (
+          <img
+            src={heroImage}
+            alt="Anaya Villa Community at golden hour"
+            className="w-full h-full object-cover"
+          />
+        )}
+        
+        {/* Overlay gradients */}
         <div className="absolute inset-0 bg-hero-overlay" />
         <div className="absolute inset-0 bg-gradient-to-r from-charcoal/50 via-transparent to-transparent" />
       </div>
