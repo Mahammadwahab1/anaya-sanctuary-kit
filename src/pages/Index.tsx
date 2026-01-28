@@ -1,12 +1,14 @@
 import { Navigation } from '@/components/layout/Navigation';
 import { Footer } from '@/components/layout/Footer';
 import { HeroSection } from '@/components/home/HeroSection';
+import { StorySection } from '@/components/home/StorySection';
 import { ProofSection } from '@/components/home/ProofSection';
+import { MasterPlanSection } from '@/components/home/MasterPlanSection';
 import { WhyAnayaSection } from '@/components/home/WhyAnayaSection';
-import { DesignSection } from '@/components/home/DesignSection';
 import { AmenitiesSection } from '@/components/home/AmenitiesSection';
 import { LocationSection } from '@/components/home/LocationSection';
 import { GalleryTeaser } from '@/components/home/GalleryTeaser';
+import { DeveloperSection } from '@/components/home/DeveloperSection';
 import { BookingSection } from '@/components/home/BookingSection';
 
 const Index = () => {
@@ -15,12 +17,14 @@ const Index = () => {
       <Navigation />
       <main>
         <HeroSection />
+        <StorySection />
         <ProofSection />
+        <MasterPlanSection />
         <WhyAnayaSection />
-        <DesignSection />
         <AmenitiesSection />
         <LocationSection />
         <GalleryTeaser />
+        <DeveloperSection />
         <BookingSection />
       </main>
       <Footer />
