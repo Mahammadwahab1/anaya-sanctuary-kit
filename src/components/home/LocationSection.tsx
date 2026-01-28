@@ -1,29 +1,29 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, MapPin, Clock, TreePine, Building } from 'lucide-react';
+import { ArrowRight, Clock, GraduationCap, Stethoscope, Building2 } from 'lucide-react';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
-const locationBenefits = [
+const distances = [
   {
     icon: Clock,
-    title: '20 Minutes to City Center',
-    description: 'Close enough to stay connected, far enough to feel away.',
+    title: '15 mins to ORR',
+    description: 'Quick access to the outer ring road',
   },
   {
-    icon: TreePine,
-    title: 'Forest Buffer Zone',
-    description: 'Protected greenery on three sides ensures lasting privacy.',
+    icon: GraduationCap,
+    title: '10 mins to Schools',
+    description: 'Top CBSE, ICSE, and international schools nearby',
   },
   {
-    icon: Building,
-    title: 'Emerging Tech Corridor',
-    description: 'IT parks and business hubs within easy commute distance.',
+    icon: Stethoscope,
+    title: '12 mins to Hospitals',
+    description: 'Multi-specialty hospitals within easy reach',
   },
   {
-    icon: MapPin,
-    title: 'Premium Neighborhood',
-    description: 'Surrounded by established communities and quality infrastructure.',
+    icon: Building2,
+    title: '20 mins to IT Hubs',
+    description: 'Major tech parks and business centers',
   },
 ];
 
@@ -33,7 +33,7 @@ export function LocationSection() {
   return (
     <section ref={ref} className="section-padding bg-primary text-primary-foreground">
       <div className="container-wide">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           {/* Content */}
           <div>
             <p
@@ -43,7 +43,7 @@ export function LocationSection() {
                 isVisible && 'opacity-100 translate-y-0'
               )}
             >
-              Strategic Location
+              Location
             </p>
             <h2
               className={cn(
@@ -52,8 +52,8 @@ export function LocationSection() {
                 isVisible && 'opacity-100 translate-y-0'
               )}
             >
-              The Best of
-              <span className="text-gold"> Both Worlds</span>
+              Connected, Yet
+              <span className="text-gold"> Secluded</span>
             </h2>
             <p
               className={cn(
@@ -62,16 +62,16 @@ export function LocationSection() {
                 isVisible && 'opacity-100 translate-y-0'
               )}
             >
-              Anaya is positioned where convenience meets calm. Urban amenities when you need them, 
-              natural serenity when you want it.
+              Anaya is strategically positioned where urban convenience meets natural calm. 
+              Everything you need is close by, yet home feels like a world away.
             </p>
 
             <div className="grid sm:grid-cols-2 gap-6 mb-10">
-              {locationBenefits.map((benefit, index) => {
-                const Icon = benefit.icon;
+              {distances.map((item, index) => {
+                const Icon = item.icon;
                 return (
                   <div
-                    key={benefit.title}
+                    key={item.title}
                     className={cn(
                       'flex gap-4',
                       'opacity-0 translate-y-4 transition-all duration-500',
@@ -79,21 +79,31 @@ export function LocationSection() {
                     )}
                     style={{ transitionDelay: `${300 + index * 100}ms` }}
                   >
-                    <div className="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center flex-shrink-0">
+                    <div className="w-11 h-11 rounded-full bg-gold/20 flex items-center justify-center flex-shrink-0">
                       <Icon className="w-5 h-5 text-gold" />
                     </div>
                     <div>
                       <h3 className="font-display text-lg mb-1">
-                        {benefit.title}
+                        {item.title}
                       </h3>
                       <p className="font-body text-sm text-primary-foreground/60">
-                        {benefit.description}
+                        {item.description}
                       </p>
                     </div>
                   </div>
                 );
               })}
             </div>
+
+            <p
+              className={cn(
+                'font-body text-xs text-primary-foreground/50 mb-8',
+                'opacity-0 transition-opacity duration-500 delay-700',
+                isVisible && 'opacity-100'
+              )}
+            >
+              * Travel times are approximate and may vary based on traffic conditions.
+            </p>
 
             <Button
               asChild
@@ -105,31 +115,33 @@ export function LocationSection() {
               )}
             >
               <Link to="/location">
-                View on Map
+                View Detailed Map
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
             </Button>
           </div>
 
-          {/* Map Placeholder */}
+          {/* Google Maps Embed */}
           <div
             className={cn(
-              'relative aspect-square rounded-lg overflow-hidden',
+              'relative aspect-square lg:aspect-[4/5] rounded-lg overflow-hidden',
               'opacity-0 scale-95 transition-all duration-700 delay-300',
               isVisible && 'opacity-100 scale-100'
             )}
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-gold/20 to-primary/50 flex items-center justify-center">
-              <div className="text-center">
-                <MapPin className="w-16 h-16 text-gold mx-auto mb-4" />
-                <p className="font-display text-2xl text-primary-foreground">
-                  Interactive Map
-                </p>
-                <p className="font-body text-sm text-primary-foreground/60 mt-2">
-                  Coming Soon
-                </p>
-              </div>
-            </div>
+            {/* Placeholder map - replace with actual coordinates */}
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d248849.56659780916!2d77.46612625!3d12.954280299999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b44e6d%3A0xf8dfc3e8517e4fe0!2sBengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Anaya Sanctuary Location"
+              className="grayscale contrast-125 opacity-90"
+            />
+            <div className="absolute inset-0 pointer-events-none border border-gold/20 rounded-lg" />
           </div>
         </div>
       </div>

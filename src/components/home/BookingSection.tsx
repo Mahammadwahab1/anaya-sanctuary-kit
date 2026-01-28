@@ -7,7 +7,6 @@ import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import {
   Form,
   FormControl,
@@ -29,20 +28,16 @@ import { cn } from '@/lib/utils';
 const formSchema = z.object({
   name: z.string().min(2, 'Please enter your name').max(100),
   phone: z.string().min(10, 'Please enter a valid phone number').max(15),
-  email: z.string().email('Please enter a valid email').max(255),
-  city: z.string().min(2, 'Please enter your city').max(100),
-  budget: z.string().min(1, 'Please select your budget range'),
-  visitDate: z.string().optional(),
-  message: z.string().max(1000).optional(),
+  interest: z.string().min(1, 'Please select your interest'),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
-const budgetRanges = [
-  '₹1.5 - 2 Cr',
-  '₹2 - 3 Cr',
-  '₹3 - 4 Cr',
-  '₹4 Cr+',
+const interestOptions = [
+  'Schedule a Site Visit',
+  'Pricing Details',
+  'Floor Plans',
+  'Other Inquiry',
 ];
 
 export function BookingSection() {
@@ -55,11 +50,7 @@ export function BookingSection() {
     defaultValues: {
       name: '',
       phone: '',
-      email: '',
-      city: '',
-      budget: '',
-      visitDate: '',
-      message: '',
+      interest: '',
     },
   });
 
@@ -70,19 +61,19 @@ export function BookingSection() {
       const { error } = await supabase.from('leads').insert({
         name: data.name.trim(),
         phone: data.phone.trim(),
-        email: data.email.trim().toLowerCase(),
-        city: data.city.trim(),
-        budget: data.budget,
-        visit_date: data.visitDate || null,
-        message: data.message?.trim() || null,
-        source: 'website_booking_form',
+        email: `${data.phone.trim()}@placeholder.com`, // Placeholder email since field is required in DB
+        city: 'Not specified',
+        budget: data.interest,
+        visit_date: null,
+        message: `Interest: ${data.interest}`,
+        source: 'website_simplified_form',
       });
 
       if (error) throw error;
 
       toast({
         title: 'Thank you for your interest',
-        description: 'Our team will contact you within 24 hours to schedule your visit.',
+        description: 'Our team will contact you within 24 hours.',
       });
       
       form.reset();
@@ -99,14 +90,14 @@ export function BookingSection() {
   };
 
   const whatsappMessage = encodeURIComponent(
-    "Hi, I'm interested in BrikBuild Anaya villas. I'd like to schedule a site visit."
+    "Hi, I'm interested in Anaya Sanctuary villas. I'd like to know more."
   );
   const whatsappLink = `https://wa.me/919876543210?text=${whatsappMessage}`;
 
   return (
     <section ref={ref} className="section-padding bg-secondary">
       <div className="container-wide">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Content */}
           <div
             className={cn(
@@ -115,28 +106,28 @@ export function BookingSection() {
             )}
           >
             <p className="font-body text-gold text-sm tracking-[0.3em] uppercase mb-4">
-              Begin Your Journey
+              Take the Next Step
             </p>
             <h2 className="font-display text-4xl md:text-5xl text-foreground mb-6">
-              Schedule Your
-              <span className="text-primary"> Private Visit</span>
+              Book a
+              <span className="text-primary"> Site Visit</span>
             </h2>
             <p className="font-body text-lg text-muted-foreground leading-relaxed mb-8">
-              Experience Anaya in person. Walk the grounds, feel the breeze, envision your future home. 
-              Our team will guide you through every detail.
+              The best way to experience Anaya is in person. Walk the grounds, feel the calm, 
+              and see why families are choosing to call this home.
             </p>
 
-            <div className="space-y-6">
+            <div className="space-y-5 mb-8">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
                   <Calendar className="w-6 h-6 text-primary" />
                 </div>
                 <div>
                   <h3 className="font-display text-lg text-foreground">
-                    Personalized Tours
+                    Private Tours Available
                   </h3>
                   <p className="font-body text-sm text-muted-foreground">
-                    One-on-one walkthrough at your convenience
+                    Personalized walkthrough at your convenience
                   </p>
                 </div>
               </div>
@@ -146,10 +137,10 @@ export function BookingSection() {
                 </div>
                 <div>
                   <h3 className="font-display text-lg text-foreground">
-                    Direct Line
+                    Call Us Directly
                   </h3>
                   <p className="font-body text-sm text-muted-foreground">
-                    Call us: +91 98765 43210
+                    +91 98765 43210
                   </p>
                 </div>
               </div>
@@ -159,7 +150,7 @@ export function BookingSection() {
             <Button
               asChild
               size="lg"
-              className="mt-8 btn-glow bg-[#25D366] text-white hover:bg-[#20BD5A]"
+              className="btn-glow bg-[#25D366] text-white hover:bg-[#20BD5A]"
             >
               <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
                 <MessageCircle className="w-5 h-5 mr-2" />
@@ -168,7 +159,7 @@ export function BookingSection() {
             </Button>
           </div>
 
-          {/* Form */}
+          {/* Simplified Form */}
           <div
             className={cn(
               'luxury-card p-8 md:p-10',
@@ -176,137 +167,39 @@ export function BookingSection() {
               isVisible && 'opacity-100 translate-y-0'
             )}
           >
+            <h3 className="font-display text-2xl text-foreground mb-6">
+              Request a Callback
+            </h3>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="font-body text-sm">Full Name *</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Your name"
-                            className="bg-background border-border"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="phone"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="font-body text-sm">Phone *</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="+91 98765 43210"
-                            className="bg-background border-border"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="font-body text-sm">Email *</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="email"
-                            placeholder="you@email.com"
-                            className="bg-background border-border"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="city"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="font-body text-sm">City *</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Current city"
-                            className="bg-background border-border"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <FormField
-                    control={form.control}
-                    name="budget"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="font-body text-sm">Budget Range *</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger className="bg-background border-border">
-                              <SelectValue placeholder="Select budget" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {budgetRanges.map((range) => (
-                              <SelectItem key={range} value={range}>
-                                {range}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="visitDate"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="font-body text-sm">Preferred Visit Date</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="date"
-                            className="bg-background border-border"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
                 <FormField
                   control={form.control}
-                  name="message"
+                  name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-body text-sm">Message (Optional)</FormLabel>
+                      <FormLabel className="font-body text-sm">Your Name *</FormLabel>
                       <FormControl>
-                        <Textarea
-                          placeholder="Any specific requirements or questions..."
-                          className="bg-background border-border min-h-[100px] resize-none"
+                        <Input
+                          placeholder="Full name"
+                          className="bg-background border-border h-12"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-body text-sm">Mobile Number *</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="+91 98765 43210"
+                          className="bg-background border-border h-12"
                           {...field}
                         />
                       </FormControl>
@@ -315,15 +208,39 @@ export function BookingSection() {
                   )}
                 />
 
+                <FormField
+                  control={form.control}
+                  name="interest"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-body text-sm">Interested In *</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="bg-background border-border h-12">
+                            <SelectValue placeholder="Select your interest" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {interestOptions.map((option) => (
+                            <SelectItem key={option} value={option}>
+                              {option}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
                 <p className="font-body text-xs text-muted-foreground">
-                  By submitting, you agree to receive communication from BrikBuild regarding Anaya. 
-                  We respect your privacy and will not share your information.
+                  We respect your privacy and will only contact you regarding Anaya Sanctuary.
                 </p>
 
                 <Button
                   type="submit"
                   size="lg"
-                  className="w-full btn-glow bg-primary text-primary-foreground hover:bg-primary/90"
+                  className="w-full btn-glow bg-primary text-primary-foreground hover:bg-primary/90 h-12"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? (
@@ -334,7 +251,7 @@ export function BookingSection() {
                   ) : (
                     <>
                       <Calendar className="w-5 h-5 mr-2" />
-                      Request a Visit
+                      Book a Site Visit
                     </>
                   )}
                 </Button>

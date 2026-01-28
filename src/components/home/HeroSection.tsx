@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowDown, Phone, Calendar } from 'lucide-react';
+import { ArrowDown, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import heroImage from '@/assets/hero-villa.jpg';
 import heroVideo from '@/assets/hero-video.mp4';
 
-// Video source - using imported video asset
 const HERO_VIDEO_URL = heroVideo;
 
 export function HeroSection() {
@@ -34,7 +33,6 @@ export function HeroSection() {
           transform: `translateY(-${parallaxOffset}px)`,
         }}
       >
-        {/* Conditional: Show video or static image based on motion preference */}
         {hasVideo && !prefersReducedMotion ? (
           <video
             className="hero-video"
@@ -46,59 +44,55 @@ export function HeroSection() {
             preload="metadata"
           >
             <source src={HERO_VIDEO_URL} type="video/mp4" />
-            {/* Fallback for browsers that don't support video */}
             <img
               src={heroImage}
-              alt="Anaya Villa Community at golden hour"
+              alt="Anaya Sanctuary luxury villas"
               className="w-full h-full object-cover"
             />
           </video>
         ) : (
           <img
             src={heroImage}
-            alt="Anaya Villa Community at golden hour"
+            alt="Anaya Sanctuary luxury villas"
             className="w-full h-full object-cover"
           />
         )}
         
         {/* Overlay gradients */}
         <div className="absolute inset-0 bg-hero-overlay" />
-        <div className="absolute inset-0 bg-gradient-to-r from-charcoal/50 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-charcoal/60 via-charcoal/30 to-transparent" />
       </div>
 
       {/* Content */}
       <div className="relative h-full container-wide flex flex-col justify-center pt-20">
         <div className="max-w-3xl">
-          {/* Eyebrow */}
-          <p
-            className="font-body text-gold text-sm md:text-base tracking-[0.3em] uppercase mb-6 opacity-0 animate-fade-up"
-            style={{ animationDelay: '200ms', animationFillMode: 'forwards' }}
-          >
-            A BrikBuild Sanctuary
-          </p>
-
           {/* Main Headline */}
           <h1
-            className="font-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-white font-medium leading-[1.1] mb-6 opacity-0 animate-fade-up"
-            style={{ animationDelay: '400ms', animationFillMode: 'forwards' }}
+            className="font-display text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-white font-medium leading-[1.1] mb-4 opacity-0 animate-fade-up"
+            style={{ animationDelay: '200ms', animationFillMode: 'forwards' }}
           >
-            Where Architecture
-            <br />
-            <span className="text-gold-light">Meets Forest</span>
+            Anaya Sanctuary
           </h1>
 
           {/* Subheadline */}
           <p
-            className="font-body text-lg md:text-xl text-white/80 leading-relaxed max-w-xl mb-10 opacity-0 animate-fade-up"
-            style={{ animationDelay: '600ms', animationFillMode: 'forwards' }}
+            className="font-display text-2xl md:text-3xl text-gold-light leading-snug mb-6 opacity-0 animate-fade-up"
+            style={{ animationDelay: '400ms', animationFillMode: 'forwards' }}
           >
-            An exclusive collection of 42 villa homes nestled within 18 acres of curated landscape. 
-            Your family's sanctuary for the next decade — and beyond.
+            Luxury Villas Crafted in Harmony with Nature
           </p>
 
-          {/* CTAs */}
+          {/* Tagline */}
+          <p
+            className="font-body text-base md:text-lg text-white/80 leading-relaxed max-w-xl mb-10 opacity-0 animate-fade-up"
+            style={{ animationDelay: '600ms', animationFillMode: 'forwards' }}
+          >
+            Limited premium villas · Thoughtfully designed · Peaceful gated living
+          </p>
+
+          {/* Single CTA */}
           <div
-            className="flex flex-col sm:flex-row gap-4 opacity-0 animate-fade-up"
+            className="opacity-0 animate-fade-up"
             style={{ animationDelay: '800ms', animationFillMode: 'forwards' }}
           >
             <Button
@@ -108,19 +102,8 @@ export function HeroSection() {
             >
               <Link to="/contact">
                 <Calendar className="w-5 h-5 mr-2" />
-                Schedule Your Visit
+                Schedule a Private Site Visit
               </Link>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="border-white/30 text-white hover:bg-white/10 font-body text-base px-8"
-            >
-              <a href="tel:+919876543210">
-                <Phone className="w-5 h-5 mr-2" />
-                Speak with Us
-              </a>
             </Button>
           </div>
         </div>
