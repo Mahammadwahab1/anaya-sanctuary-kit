@@ -58,14 +58,18 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
         },
         // Custom brand colors
+        terracotta: "hsl(var(--terracotta))",
+        bronze: "hsl(var(--bronze))",
         forest: "hsl(var(--forest))",
-        cream: "hsl(var(--cream))",
+        stone: "hsl(var(--stone))",
         charcoal: "hsl(var(--charcoal))",
+        // Legacy aliases
+        cream: "hsl(var(--cream))",
         gold: "hsl(var(--gold))",
         "gold-light": "hsl(var(--gold-light))",
       },
       fontFamily: {
-        display: ["Cormorant Garamond", "Georgia", "serif"],
+        display: ["Playfair Display", "Georgia", "serif"],
         body: ["Inter", "system-ui", "sans-serif"],
       },
       borderRadius: {
@@ -74,9 +78,9 @@ export default {
         sm: "calc(var(--radius) - 4px)",
       },
       boxShadow: {
-        soft: "0 4px 30px hsl(0 0% 16% / 0.08)",
-        glow: "0 0 40px hsl(43 46% 59% / 0.2)",
-        "glow-lg": "0 0 60px hsl(43 46% 59% / 0.3)",
+        soft: "0 4px 30px hsl(220 15% 18% / 0.08)",
+        glow: "0 0 40px hsl(30 60% 55% / 0.25)",
+        "glow-lg": "0 0 60px hsl(30 60% 55% / 0.35)",
       },
       keyframes: {
         "accordion-down": {
