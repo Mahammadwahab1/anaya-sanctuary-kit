@@ -1,114 +1,119 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* BrikBuild Anaya Design System
-   Colors: Forest Green + Cream primary, Charcoal + Muted Gold accents
-   Typography: Cormorant Garamond (display) + Inter (body)
-   Aesthetic: Quiet luxury, cinematic, nature-forward
+   Colors: Bronze/Terracotta primary, Deep Forest Green secondary, Stone/Off-White neutrals
+   Typography: Playfair Display (display) + Inter (body)
+   Aesthetic: Earth & Elegance, Asset-First luxury
 */
 
 @layer base {
   :root {
-    /* Primary Colors */
-    --background: 40 23% 95%; /* Cream #F7F4ED */
-    --foreground: 0 0% 16%; /* Charcoal #2A2A2A */
+    /* Primary Colors - Bronze/Terracotta Theme */
+    --background: 30 20% 96%; /* Stone Off-White #F5F3F0 */
+    --foreground: 220 15% 18%; /* Deep Charcoal #272D35 */
 
-    /* Forest Green as Primary */
-    --primary: 150 26% 23%; /* Forest Green #2D4739 */
-    --primary-foreground: 40 23% 95%;
+    /* Bronze/Terracotta as Primary */
+    --primary: 24 85% 50%; /* Terracotta Orange #EC6B2D */
+    --primary-foreground: 0 0% 100%;
 
-    /* Cream variations */
-    --secondary: 40 23% 92%;
-    --secondary-foreground: 0 0% 16%;
+    /* Forest Green as Secondary */
+    --secondary: 150 30% 25%; /* Deep Forest Green #2D4A39 */
+    --secondary-foreground: 30 20% 96%;
 
-    --muted: 40 15% 90%;
-    --muted-foreground: 0 0% 40%;
+    --muted: 30 15% 92%;
+    --muted-foreground: 220 10% 45%;
 
-    /* Gold Accent */
-    --accent: 43 46% 59%; /* Muted Gold #C9A962 */
-    --accent-foreground: 0 0% 16%;
+    /* Bronze Accent */
+    --accent: 30 60% 55%; /* Warm Bronze #CD7F4A */
+    --accent-foreground: 0 0% 100%;
 
-    --card: 40 23% 97%;
-    --card-foreground: 0 0% 16%;
+    --card: 30 20% 98%;
+    --card-foreground: 220 15% 18%;
 
-    --popover: 40 23% 97%;
-    --popover-foreground: 0 0% 16%;
+    --popover: 30 20% 98%;
+    --popover-foreground: 220 15% 18%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 40 23% 95%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 40 15% 85%;
-    --input: 40 15% 85%;
-    --ring: 150 26% 23%;
+    --border: 30 15% 88%;
+    --input: 30 15% 88%;
+    --ring: 24 85% 50%;
 
     --radius: 0.5rem;
 
-    /* Custom Properties */
-    --forest: 150 26% 23%;
-    --cream: 40 23% 95%;
-    --charcoal: 0 0% 16%;
-    --gold: 43 46% 59%;
-    --gold-light: 43 46% 75%;
+    /* Custom Brand Properties */
+    --terracotta: 24 85% 50%;
+    --bronze: 30 60% 55%;
+    --forest: 150 30% 25%;
+    --stone: 30 20% 96%;
+    --charcoal: 220 15% 18%;
+
+    /* Legacy aliases for compatibility */
+    --cream: 30 20% 96%;
+    --gold: 30 60% 55%;
+    --gold-light: 30 50% 70%;
 
     /* Gradients */
-    --gradient-hero: linear-gradient(180deg, hsl(150 26% 23% / 0.1) 0%, hsl(40 23% 95% / 0.95) 100%);
-    --gradient-overlay: linear-gradient(180deg, transparent 0%, hsl(0 0% 16% / 0.6) 100%);
+    --gradient-hero: linear-gradient(180deg, hsl(24 85% 50% / 0.1) 0%, hsl(30 20% 96% / 0.95) 100%);
+    --gradient-overlay: linear-gradient(180deg, transparent 0%, hsl(220 15% 18% / 0.6) 100%);
 
     /* Shadows */
-    --shadow-soft: 0 4px 30px hsl(0 0% 16% / 0.08);
-    --shadow-glow: 0 0 40px hsl(43 46% 59% / 0.2);
+    --shadow-soft: 0 4px 30px hsl(220 15% 18% / 0.08);
+    --shadow-glow: 0 0 40px hsl(30 60% 55% / 0.25);
 
-    /* Sidebar (keeping defaults) */
-    --sidebar-background: 40 23% 97%;
-    --sidebar-foreground: 0 0% 30%;
-    --sidebar-primary: 150 26% 23%;
-    --sidebar-primary-foreground: 40 23% 95%;
-    --sidebar-accent: 40 15% 92%;
-    --sidebar-accent-foreground: 0 0% 20%;
-    --sidebar-border: 40 15% 88%;
-    --sidebar-ring: 150 26% 23%;
+    /* Sidebar */
+    --sidebar-background: 30 20% 98%;
+    --sidebar-foreground: 220 10% 30%;
+    --sidebar-primary: 24 85% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 30 15% 94%;
+    --sidebar-accent-foreground: 220 15% 20%;
+    --sidebar-border: 30 15% 90%;
+    --sidebar-ring: 24 85% 50%;
   }
 
   .dark {
-    --background: 0 0% 10%;
-    --foreground: 40 23% 95%;
+    --background: 220 15% 10%;
+    --foreground: 30 20% 96%;
 
-    --primary: 43 46% 59%;
-    --primary-foreground: 0 0% 10%;
+    --primary: 24 85% 55%;
+    --primary-foreground: 220 15% 10%;
 
-    --secondary: 0 0% 15%;
-    --secondary-foreground: 40 23% 95%;
+    --secondary: 150 30% 35%;
+    --secondary-foreground: 30 20% 96%;
 
-    --muted: 0 0% 18%;
-    --muted-foreground: 40 15% 65%;
+    --muted: 220 15% 18%;
+    --muted-foreground: 30 15% 65%;
 
-    --accent: 150 26% 30%;
-    --accent-foreground: 40 23% 95%;
+    --accent: 30 60% 60%;
+    --accent-foreground: 220 15% 10%;
 
-    --card: 0 0% 12%;
-    --card-foreground: 40 23% 95%;
+    --card: 220 15% 12%;
+    --card-foreground: 30 20% 96%;
 
-    --popover: 0 0% 12%;
-    --popover-foreground: 40 23% 95%;
+    --popover: 220 15% 12%;
+    --popover-foreground: 30 20% 96%;
 
     --destructive: 0 62% 50%;
-    --destructive-foreground: 40 23% 95%;
+    --destructive-foreground: 30 20% 96%;
 
-    --border: 0 0% 20%;
-    --input: 0 0% 20%;
-    --ring: 43 46% 59%;
+    --border: 220 15% 20%;
+    --input: 220 15% 20%;
+    --ring: 24 85% 55%;
 
-    --sidebar-background: 0 0% 10%;
-    --sidebar-foreground: 40 23% 90%;
-    --sidebar-primary: 43 46% 59%;
-    --sidebar-primary-foreground: 0 0% 10%;
-    --sidebar-accent: 0 0% 15%;
-    --sidebar-accent-foreground: 40 23% 90%;
-    --sidebar-border: 0 0% 18%;
-    --sidebar-ring: 43 46% 59%;
+    --sidebar-background: 220 15% 10%;
+    --sidebar-foreground: 30 20% 90%;
+    --sidebar-primary: 24 85% 55%;
+    --sidebar-primary-foreground: 220 15% 10%;
+    --sidebar-accent: 220 15% 15%;
+    --sidebar-accent-foreground: 30 20% 90%;
+    --sidebar-border: 220 15% 18%;
+    --sidebar-ring: 24 85% 55%;
   }
 }
 
@@ -141,12 +146,12 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: 'Playfair Display', Georgia, serif;
     @apply font-medium tracking-tight;
   }
 
   .font-display {
-    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-family: 'Playfair Display', Georgia, serif;
   }
 
   .font-body {

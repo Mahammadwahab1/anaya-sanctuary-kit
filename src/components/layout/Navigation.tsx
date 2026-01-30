@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import logo from '@/assets/logo.png';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -46,20 +47,20 @@ export function Navigation() {
           {/* Logo */}
           <Link
             to="/"
-            className="flex items-center gap-2 group"
+            className="flex items-center gap-3 group"
           >
-            <span
+            <img 
+              src={logo} 
+              alt="BrikBuild Constructions" 
               className={cn(
-                'font-display text-2xl md:text-3xl font-semibold tracking-tight transition-colors duration-300',
-                isScrolled ? 'text-primary' : 'text-white'
+                'h-10 md:h-12 w-auto transition-all duration-300',
+                !isScrolled && 'brightness-0 invert'
               )}
-            >
-              BrikBuild
-            </span>
+            />
             <span
               className={cn(
-                'font-display text-2xl md:text-3xl font-light tracking-wide transition-colors duration-300',
-                isScrolled ? 'text-gold' : 'text-gold-light'
+                'font-display text-xl md:text-2xl font-semibold tracking-tight transition-colors duration-300 hidden sm:block',
+                isScrolled ? 'text-foreground' : 'text-white'
               )}
             >
               Anaya
